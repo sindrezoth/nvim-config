@@ -4,4 +4,4 @@
 
 ### Config authors from wich my is created:
 
-    - [Josean](https://github.com/josean-dev)
+[Josean](https://github.com/josean-dev)
