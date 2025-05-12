@@ -81,6 +81,29 @@ return {
 		"nvim-telescope/telescope.nvim",
 		requires = { "nvim-lua/plenary.nvim" },
 	},
+  {
+    'nvim-telescope/telescope-ui-select.nvim',
+    config = function()
+      local actions = require("telescope.actions")
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            i = {
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
+            }
+          }
+        },
+        extensions = {
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+            }
+          }
+        }
+      })
+      require("telescope").load_extension("ui-select")
+    end
+  },
 
 	-- Tailwind & Bootstrap
 	"themaxmarchuk/tailwindcss-colors.nvim",

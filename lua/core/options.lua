@@ -1,12 +1,12 @@
 -- Enable inline diagnostics
--- vim.diagnostic.config(
--- 	virtual_lines = { only_current_line = true },
--- 	virtual_text = false, -- Show virtual text for diagnostics
--- 	signs = true, -- Show signs in the gutter
--- 	underline = true, -- Underline errors and warnings
--- 	update_in_insert = false, -- Don't update diagnostics while typing
--- 	severity_sort = true, -- Sort by severity
--- 	float = {
--- 		border = "rounded",
--- 	},
--- })
+vim.diagnostic.config({
+	virtual_lines = { only_current_line = true },
+	virtual_text = false, -- Show virtual text for diagnostics
+	signs = true, -- Show signs in the gutter
+	underline = true, -- Underline errors and warnings
+	update_in_insert = false, -- Don't update diagnostics while typing
+	severity_sort = true, -- Sort by severity
+	float = {
+		border = "rounded",
+	},
+})

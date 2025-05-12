@@ -1,24 +1,3 @@
--- vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.stdpath("data") .. "/mason/bin"
-
-vim.diagnostic.config({
-	virtual_lines = {
-		current_line = true,
-	},
-	virtual_text = false, -- Show virtual text for diagnostics
-	signs = true, -- Show signs in the gutter
-	underline = true, -- Underline errors and warnings
-	update_in_insert = false, -- Don't update diagnostics while typing
-	severity_sort = true, -- Sort by severity
-	float = {
-		border = "rounded",
-	},
-})
-
-vim.keymap.set("n", "gK", function()
-	local new_config = not vim.diagnostic.config().virtual_lines
-	vim.diagnostic.config({ virtual_lines = new_config })
-end, { desc = "Toggle diagnostic virtual_lines" })
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 

@@ -1,5 +1,6 @@
 local keymap = vim.keymap
 
+-- Telescope
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
 keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
@@ -43,3 +44,7 @@ keymap.set(
 )
 keymap.set("n", "<leader>dq", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List" })
 keymap.set("n", "<leader>dw", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List" })
+vim.keymap.set("n", "gK", function()
+	local new_config = not vim.diagnostic.config().virtual_lines
+	vim.diagnostic.config({ virtual_lines = new_config })
+end, { desc = "Toggle diagnostic virtual_lines" })
