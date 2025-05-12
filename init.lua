@@ -1,6 +1,7 @@
 require("core")
 
 require(".lazy")
+require("chatgpt")
 require("chatgpt.plugins")
 
 -- Set up LSP, Autocompletion, and other configuration

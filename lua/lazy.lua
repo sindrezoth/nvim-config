@@ -12,16 +12,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
-  { { import = "chatgpt.plugins" },
- --{ import = "chatgpt.lsp" }
-} 
---  {
---	checker = {
---		enabled = true,
---		notify = false,
---	},
---	change_detection = {
---		notify = false,
---	},
--- }
+	{
+		{ import = "chatgpt.plugins" },
+		{ import = "chatgpt.pluginss" },
+		--{ import = "chatgpt.lsp" }
+	}
+	--  {
+	--	checker = {
+	--		enabled = true,
+	--		notify = false,
+	--	},
+	--	change_detection = {
+	--		notify = false,
+	--	},
+	-- }
 )

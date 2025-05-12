@@ -1,4 +1,18 @@
 return {
+	-- {
+	-- 	"xero/evangelion.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	init = function()
+	-- 		vim.cmd.colorscheme("evangelion")
+	-- 	end,
+	-- },
+	-- {
+	-- 	"rebelot/kanagawa.nvim",
+	-- 	init = function()
+	-- 		vim.cmd.colorscheme("kanagawa")
+	-- 	end,
+	-- },
 	-- LSP and Autocompletion
 	"neovim/nvim-lspconfig",
 	"hrsh7th/nvim-cmp",
@@ -81,29 +95,28 @@ return {
 		"nvim-telescope/telescope.nvim",
 		requires = { "nvim-lua/plenary.nvim" },
 	},
-  {
-    'nvim-telescope/telescope-ui-select.nvim',
-    config = function()
-      local actions = require("telescope.actions")
-      require("telescope").setup({
-        defaults = {
-          mappings = {
-            i = {
-              ["<C-k>"] = actions.move_selection_previous,
-              ["<C-j>"] = actions.move_selection_next,
-            }
-          }
-        },
-        extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown {
-            }
-          }
-        }
-      })
-      require("telescope").load_extension("ui-select")
-    end
-  },
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
+		config = function()
+			local actions = require("telescope.actions")
+			require("telescope").setup({
+				defaults = {
+					mappings = {
+						i = {
+							["<C-k>"] = actions.move_selection_previous,
+							["<C-j>"] = actions.move_selection_next,
+						},
+					},
+				},
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
+					},
+				},
+			})
+			require("telescope").load_extension("ui-select")
+		end,
+	},
 
 	-- Tailwind & Bootstrap
 	"themaxmarchuk/tailwindcss-colors.nvim",

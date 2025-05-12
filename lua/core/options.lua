@@ -1,6 +1,6 @@
 -- Enable inline diagnostics
 vim.diagnostic.config({
-	virtual_lines = { only_current_line = true },
+	virtual_lines = { current_line = true },
 	virtual_text = false, -- Show virtual text for diagnostics
 	signs = true, -- Show signs in the gutter
 	underline = true, -- Underline errors and warnings
@@ -10,3 +10,5 @@ vim.diagnostic.config({
 		border = "rounded",
 	},
 })
+
+vim.opt.shiftwidth = 4
