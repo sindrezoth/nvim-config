@@ -10,5 +10,3 @@ vim.diagnostic.config({
 		border = "rounded",
 	},
 })
-
-vim.opt.shiftwidth = 4

@@ -1,5 +1,5 @@
 return {
-	base = require("core.base"),
-	keymaps = require("core.keymaps"),
-	options = require("core.options"),
+	require("core.base"),
+	require("core.keymaps"),
+	require("core.options"),
 }

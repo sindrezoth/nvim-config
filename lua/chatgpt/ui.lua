@@ -1,5 +1,5 @@
-require('lualine').setup()
+require("lualine").setup()
 
 require("nvim-tree").setup()
 
-require("tailwindcss-colors").setup()
+-- require("tailwindcss-colors").setup()

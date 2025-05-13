@@ -17,7 +17,15 @@ return {
 	"neovim/nvim-lspconfig",
 	"hrsh7th/nvim-cmp",
 	"hrsh7th/cmp-nvim-lsp",
-	"L3MON4D3/LuaSnip",
+	{
+		"L3MON4D3/LuaSnip",
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load()
+		end,
+	},
 	"saadparwaiz1/cmp_luasnip",
 	"windwp/nvim-autopairs",
 
@@ -33,6 +41,38 @@ return {
 		config = function()
 			require("chatgpt.format")
 		end,
+	},
+
+	-- Color preview
+	{
+		"NvChad/nvim-colorizer.lua",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			require("colorizer").setup({
+				filetypes = { "*" }, -- Enable for all files
+				user_default_options = {
+					RGB = true,
+					RRGGBB = true,
+					names = true,
+					css = true,
+					css_fn = true,
+					tailwind = true,
+					mode = "background", -- Or "foreground" for text-color
+					virtualtext = false, -- "■",
+				},
+			})
+		end,
+	},
+
+	-- Tailwind & Bootstrap("themaxmarchuk/tailwindcss-colors.nvim"),
+	{
+		"roobert/tailwindcss-colorizer-cmp.nvim",
+		config = function()
+			require("tailwindcss-colorizer-cmp").setup({
+				color_square_wdith = 2,
+			})
+		end,
+		opts = {},
 	},
 
 	-- Treesitter for better syntax highlighting
@@ -117,16 +157,4 @@ return {
 			require("telescope").load_extension("ui-select")
 		end,
 	},
-
-	-- Tailwind & Bootstrap
-	"themaxmarchuk/tailwindcss-colors.nvim",
-	{
-		"rafamadriz/friendly-snippets",
-		opts = {},
-		config = function()
-			require("luasnip.loaders.from_vscode")
-		end,
-	},
-	{ "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
-	-- { "js-everts/cmp-tailwindcss-classname", opts = {} },
 }

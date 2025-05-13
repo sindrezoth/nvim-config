@@ -1,6 +1,7 @@
 require("core")
 
 require(".lazy")
+require(".scripts")
 require("chatgpt")
 require("chatgpt.plugins")
 
