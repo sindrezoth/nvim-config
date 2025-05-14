@@ -1,1 +1,1 @@
-require('gitsins').setup()
+require("gitsins").setup()

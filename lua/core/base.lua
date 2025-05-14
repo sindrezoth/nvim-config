@@ -1,3 +1,5 @@
+vim.opt.scrolloff = 10
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -5,6 +7,8 @@ vim.opt.fileencoding = "utf-8"
 
 vim.opt.smartindent = true
 vim.opt.expandtab = true
+vim.bo.expandtab = true
+vim.o.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 

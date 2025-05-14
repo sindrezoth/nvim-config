@@ -1,4 +1,4 @@
-require('nvim-treesitter.configs').setup {
+require("nvim-treesitter.configs").setup({
   modules = {},
   sync_install = false,
   ignore_install = {},
@@ -11,9 +11,9 @@ require('nvim-treesitter.configs').setup {
     "html",
     "css",
     "lua",
-    "json"
+    "json",
   },
   highlight = { enable = true },
   -- autotag = { enable = true },
   indent = { enable = true },
-}
+})

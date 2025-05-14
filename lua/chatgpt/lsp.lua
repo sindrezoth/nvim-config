@@ -10,13 +10,13 @@ lspconfig.ts_ls.setup({
 
 -- TailwindCSS
 lspconfig.tailwindcss.setup({
-  -- 	root_dir = require("lspconfig.util").root_pattern(
-  -- 		"tailwind.config.js",
-  -- 		"tailwind.config.ts",
-  -- 		"postcss.config.js",
-  -- 		"package.json",
-  -- 		"node_modules"
-  -- 	),
+  root_dir = require("lspconfig.util").root_pattern(
+    "tailwind.config.js",
+    "tailwind.config.ts",
+    "postcss.config.js",
+    "package.json",
+    "node_modules"
+  ),
 })
 
 -- HTML/CSS
