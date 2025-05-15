@@ -19,12 +19,25 @@ return {
         graphql = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
+        --  python = { "isort", "black" },
       },
       format_on_save = {
         lsp_fallback = true,
         async = false,
         timeout_ms = 1000,
+      },
+      formatters = {
+        stylua = {
+          inherit = false,
+          command = "/usr/bin/stylua",
+          args = {
+            "--search-parent-directories",
+            "--indent-type Spaces",
+            "--stdin-filepath",
+            "$FILENAME",
+            "-",
+          },
+        },
       },
     })
 
