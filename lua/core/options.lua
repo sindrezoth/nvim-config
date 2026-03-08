@@ -1,7 +1,7 @@
 -- Enable inline diagnostics
 vim.diagnostic.config({
-  virtual_lines = { current_line = true },
-  virtual_text = false, -- Show virtual text for diagnostics
+  virtual_lines = false, -- Disable virtual lines
+  virtual_text = true, -- Show virtual text for diagnostics
   signs = true, -- Show signs in the gutter
   underline = true, -- Underline errors and warnings
   update_in_insert = false, -- Don't update diagnostics while typing

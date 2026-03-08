@@ -12,6 +12,11 @@ keymap.set("n", "<leader>sj", "<cmd>bel sp | Telescope find_files<cr>")
 keymap.set("n", "<leader>sk", "<cmd>abo sp | Telescope find_files<cr>")
 keymap.set("n", "<leader>sl", "<cmd>bel vsp | Telescope find_files<cr>")
 
+-- Tabs
+keymap.set("n", "<leader>of", "<cmd>tabedit | Telescope find_files<cr>")
+keymap.set("n", "<Tab>", "<cmd>tabnext<cr>")
+keymap.set("n", "<S-Tab>", "<cmd>tabprevious<cr>")
+
 keymap.set("n", "<leader>sd", "<cmd>q<cr>")
 
 -- move

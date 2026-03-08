@@ -13,7 +13,15 @@ keymap.set("n", "<leader>sl", "<cmd>bel vsp | Telescope find_files<cr>")
 
 keymap.set("n", "<leader>sd", "<cmd>q<cr>")
 
--- move
+-- Tabs
+keymap.set("n", "<leader>th", "<cmd>tabedit | Telescope find_files<cr>")
+keymap.set("n", "<leader>tj", "<cmd>bel sp | Telescope find_files<cr>")
+keymap.set("n", "<leader>tk", "<cmd>abo sp | Telescope find_files<cr>")
+keymap.set("n", "<leader>tl", "<cmd>bel vsp | Telescope find_files<cr>")
+
+keymap.set("n", "<leader>sd", "<cmd>q<cr>")
+
+-- Move
 keymap.set("n", "<C-h>", "<C-w><C-h>")
 keymap.set("n", "<C-l>", "<C-w><C-l>")
 keymap.set("n", "<C-j>", "<C-w><C-j>")
