@@ -27,7 +27,7 @@ return {
 
 		cmp.setup({
 			completion = {
-				completeopt = "menu,menuone,preview,noselect",
+				completeopt = "menu,menuone,preview,noinsert,noselect",
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
@@ -50,7 +50,28 @@ return {
 				{ name = "buffer" }, -- text within current buffer
 				{ name = "path" }, -- file system paths
 			}),
+			sorting = {
+				priority_weight = 2,
+				comparators = {
+					-- 1. Prefer exact matches
+					cmp.config.compare.exact,
 
+					-- 2. Prefer recently used
+					cmp.config.compare.recently_used,
+
+					-- 3. Prefer local variables/functions
+					cmp.config.compare.locality,
+
+					-- 4. Then kind (functions, vars, etc.)
+					cmp.config.compare.kind,
+
+					-- 5. Then length
+					cmp.config.compare.length,
+
+					-- 6. Fallback
+					cmp.config.compare.order,
+				},
+			},
 			-- configure lspkind for vs-code like pictograms in completion menu
 			formatting = {
 				format = lspkind.cmp_format({
