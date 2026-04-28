@@ -1,3 +1,5 @@
+vim.o.exrc = true
+vim.o.secure = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
@@ -14,6 +16,8 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.signcolumn = "yes"
+
+vim.opt.langmap="йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
 local servers = { "lua_ls", "pyright", "ts_ls", "html", "cssls" }
 
