@@ -9,7 +9,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.opt.smartindent = true
 vim.opt.expandtab = true
@@ -17,9 +17,9 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.signcolumn = "yes"
 
-vim.opt.langmap="йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
+vim.opt.langmap = "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
-local servers = { "lua_ls", "pyright", "ts_ls", "html", "cssls" }
+local servers = { "lua_ls", "pyright", "vtsls", "html", "cssls" }
 
 vim.pack.add({
   { src = "https://github.com/folke/tokyonight.nvim" },
@@ -39,6 +39,7 @@ vim.pack.add({
   { src = "https://github.com/L3MON4D3/LuaSnip" },
 });
 
+
 require("mason").setup()
 
 require("mason-lspconfig").setup({
@@ -54,7 +55,23 @@ vim.lsp.config("html", {
   }
 })
 vim.lsp.config("cssls", {})
-vim.lsp.config("ts_ls", {})
+-- vim.lsp.config("ts_ls", {})
+vim.lsp.config("vtsls", {
+  settings = {
+    typescript = {
+      preferences = {
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+      },
+    },
+    javascript = {
+      preferences = {
+        includeCompletionsForModuleExports = true,
+        includeCompletionsForImportStatements = true,
+      },
+    },
+  },
+})
 vim.lsp.enable(servers)
 
 require("mini.pick").setup()
@@ -88,10 +105,17 @@ require("blink.cmp").setup({
     },
   },
   keymap = {
-    ["<CR>"] = { "accept", "fallback"},
-    ["<C-k>"] = { "select_prev", "fallback"},
-    ["<C-j>"] = { "select_next", "fallback"},
-    ["<C-h>"] = { "hide", "fallback"},
+    ["<CR>"] = { "fallback" },
+    ["<C-k>"] = { "select_prev", "fallback" },
+    ["<C-j>"] = { "select_next", "fallback" },
+    ["<C-h>"] = { "hide", "fallback" },
+  },
+  completion = {
+    accept = {
+      auto_brackets = {
+        enabled = false
+      }
+    }
   }
 })
 
@@ -160,10 +184,6 @@ vim.keymap.set("n", "<leader>sk", ":split<CR>:Pick files<CR>")
 
 vim.keymap.set("n", "<leader>sm", ":res<CR>:vert res<CR>")
 vim.keymap.set("n", "<leader>s=", "<C-w>=")
-
-vim.keymap.set("n", "<space>ee", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<space>er", ":NvimTreeRefresh<CR>")
-
 vim.keymap.set("n", "<leader>nh", ":set nohls<CR>")
 
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
@@ -171,15 +191,29 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>")
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>")
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
 
+vim.keymap.set("n", "<leader>of", ":tabedit<CR>:Pick files<CR>")
 vim.keymap.set("n", "<Tab>", ":tabnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":tabprev<CR>")
+
+vim.keymap.set("n", "<space>ee", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<space>er", ":NvimTreeRefresh<CR>")
 
 vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>gg", ":Pick grep_live<CR>")
 
-vim.keymap.set("n", "<leader>fp", ":Pick files<CR>")
+vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
 
-vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>")
+local function wrapToggle()
+  vim.opt.wrap = not vim.opt.wrap:get()
+
+  if vim.opt.wrap:get() then
+    vim.opt.linebreak = true
+    vim.opt.breakindent = true
+  else
+    vim.opt.linebreak = false
+  end
+end
+vim.keymap.set("n", "<leader>lw", wrapToggle)
 
 vim.keymap.set("n", "<leader>pc", pack_clean)
 vim.keymap.set("n", "<leader>cc", ":checkhealth<CR>")
