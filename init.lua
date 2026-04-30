@@ -35,17 +35,17 @@ vim.pack.add({
   "nvim-mini/mini.nvim",
 
   "folke/tokyonight.nvim",
-  -- "nvim-tree/nvim-tree.lua",
   "akinsho/toggleterm.nvim",
   "folke/trouble.nvim",
   "lewis6991/gitsigns.nvim",
+  "https://github.com/j-hui/fidget.nvim",
+  "https://github.com/nvim-tree/nvim-tree.lua",
 
   -- "rafamadriz/friendly-snippets",
   -- "L3MON4D3/LuaSnip",
-  --
-  -- "nvim-lua/plenary.nvim",
-  -- "nvim-telescope/telescope.nvim",
 });
+
+require('vim._core.ui2').enable()
 
 local servers = { "lua_ls", "vtsls", "html", "cssls" }
 
@@ -58,7 +58,7 @@ require("nvim-treesitter.config")
 local cmp = require("blink.cmp")
 cmp.build():wait(60000)
 cmp.setup({
-  fuzzy = { implementation = "lua" }, --"prefer_rust_with_warning" },
+  fuzzy = { implementation = "prefer_rust_with_warning" },
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
     providers = {
@@ -134,35 +134,71 @@ vim.lsp.config("vtsls", {
 })
 vim.lsp.enable(servers)
 
+local nvimTreeConfig = {
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+}
+require("nvim-tree").setup(nvimTreeConfig)
+
 require("mini.pick").setup()
 require("mini.pairs").setup({
   modes = { insert = true, command = false, terminal = false },
   skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
   skip_ts = { "string" },
 
-  mappings = {
-    ["<"] = false,
+  mappings = { ["<"] = false,
   },
 })
 require("mini.surround").setup()
 require("mini.statusline").setup()
+require("mini.sessions").setup({
+  directory = vim.fn.stdpath("data") .. "/sessions",
+  autoread = false,
+  autowrite = true,
+  file = "",
+})
 
--- local nvimTreeConfig = {
---   sort = {
---     sorter = "case_sensitive",
---   },
---   view = {
---     width = 30,
---   },
---   renderer = {
---     group_empty = true,
---   },
---   filters = {
---     dotfiles = true,
---   },
--- }
---
--- require("nvim-tree").setup(nvimTreeConfig)
+local function session_name()
+  return vim.fn.fnamemodify(vim.loop.cwd(), ":p:h:t")
+end
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    require("mini.sessions").write(session_name())
+  end,
+})
+
+
+local function restoreSession()
+  local name = session_name()
+
+  vim.defer_fn(function()
+    local ok = pcall(require("mini.sessions").read, name)
+
+    if ok then
+      vim.cmd("filetype detect")
+      vim.cmd("syntax enable")
+
+      vim.defer_fn(function()
+        vim.cmd("silent! LspRestart")
+      end, 50)
+
+      vim.defer_fn(function()
+        vim.cmd("silent! TSBufEnable highlight")
+      end, 50)
+    end
+  end, 50)
+end
 
 require("toggleterm").setup({
   open_mapping = [[<C-\>]],
@@ -170,6 +206,19 @@ require("toggleterm").setup({
 })
 
 require("trouble").setup()
+
+require("fidget").setup({
+  progress = {
+    display = {
+      done_ttl = 1,
+    },
+  },
+  notification = {
+    window = {
+      winblend = 0,
+    },
+  },
+})
 
 local function pack_clean()
   local active_plugins = {}
@@ -199,6 +248,8 @@ vim.cmd.colorscheme("tokyonight-night")
 
 vim.g.mapleader = " "
 
+vim.keymap.set("n", "<leader>s\\", restoreSession)
+
 vim.keymap.set("n", "<leader>jk", ":q<CR>")
 
 vim.keymap.set("n", "<leader>sh", ":vsplit<CR>:Pick files<CR>")
@@ -219,16 +270,17 @@ vim.keymap.set("n", "<leader>of", ":tabedit<CR>:Pick files<CR>")
 vim.keymap.set("n", "<Tab>", ":tabnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":tabprev<CR>")
 
--- vim.keymap.set("n", "<space>ee", ":NvimTreeToggle<CR>")
--- vim.keymap.set("n", "<space>er", ":NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<space>nv", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<space>nr", ":NvimTreeRefresh<CR>")
 
+vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 vim.keymap.set("n", "<space>eo", ":Lex<CR>")
-vim.keymap.set("n", "<space>er", "<Plug>NetrwRefresh", { silent = true })
 
 vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>gg", ":Pick grep_live<CR>")
 
 vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
+vim.keymap.set("n", "<leader>gf", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
 
 local function wrapToggle()
   vim.opt.wrap = not vim.opt.wrap:get()
