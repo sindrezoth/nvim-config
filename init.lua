@@ -294,7 +294,16 @@ local function pack_clean()
   end
 end
 
-vim.cmd.colorscheme("tokyonight-night")
+-- vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("desert")
+-- vim.cmd.colorscheme("habmax")
+-- vim.cmd.colorscheme("miniwinter")
+-- vim.cmd.colorscheme("quiet")
+-- vim.cmd.colorscheme("ron")
+-- vim.cmd.colorscheme("slate")
+-- vim.cmd.colorscheme("sorbet")
+-- vim.cmd.colorscheme("wildcharm")
+-- vim.cmd.colorscheme("zaibatsu")
 
 vim.g.mapleader = " "
 
