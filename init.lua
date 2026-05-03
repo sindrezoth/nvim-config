@@ -40,6 +40,7 @@ vim.pack.add({
   "lewis6991/gitsigns.nvim",
   "https://github.com/j-hui/fidget.nvim",
   "https://github.com/nvim-tree/nvim-tree.lua",
+  "https://github.com/stevearc/conform.nvim",
 
   -- "rafamadriz/friendly-snippets",
   -- "L3MON4D3/LuaSnip",
@@ -76,9 +77,14 @@ cmp.setup({
   },
   keymap = {
     ["<CR>"] = { "fallback" },
+    ["<C-y>"] = { "accept", "fallback" },
+    ["<C-н>"] = { "accept", "fallback" },
     ["<C-k>"] = { "select_prev", "fallback" },
+    ["<C-л>"] = { "select_prev", "fallback" },
     ["<C-j>"] = { "select_next", "fallback" },
+    ["<C-о>"] = { "select_next", "fallback" },
     ["<C-h>"] = { "hide", "fallback" },
+    ["<C-р>"] = { "hide", "fallback" },
   },
   completion = {
     accept = {
@@ -207,6 +213,25 @@ require("toggleterm").setup({
 
 require("trouble").setup()
 
+require("conform").setup({
+  formatters_by_ft = {
+    javascript = { "prettier" },
+    typescript = { "prettier" },
+    javascriptreact = { "prettier" },
+    typescriptreact = { "prettier" },
+    css = { "prettier" },
+    html = { "prettier" },
+    json = { "prettier" },
+    lua = { "stylua" },
+  },
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    require("conform").format()
+  end,
+})
+
 require("fidget").setup({
   progress = {
     display = {
@@ -249,38 +274,95 @@ vim.cmd.colorscheme("tokyonight-night")
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>s\\", restoreSession)
+vim.keymap.set("n", "<leader>і\\", restoreSession)
+vim.keymap.set("n", "<leader>ы\\", restoreSession)
 
 vim.keymap.set("n", "<leader>jk", ":q<CR>")
+vim.keymap.set("n", "<leader>ол", ":q<CR>")
+vim.keymap.set("n", "<leader>ол", ":q<CR>")
 
 vim.keymap.set("n", "<leader>sh", ":vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ір", ":vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ыр", ":vsplit<CR>:Pick files<CR>")
+
 vim.keymap.set("n", "<leader>sl", ":bel vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ід", ":bel vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ыд", ":bel vsplit<CR>:Pick files<CR>")
+
 vim.keymap.set("n", "<leader>sj", ":bel split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>іо", ":bel split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ыо", ":bel split<CR>:Pick files<CR>")
+
 vim.keymap.set("n", "<leader>sk", ":split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>іл", ":split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ыл", ":split<CR>:Pick files<CR>")
 
 vim.keymap.set("n", "<leader>sm", ":res<CR>:vert res<CR>")
+vim.keymap.set("n", "<leader>іь", ":res<CR>:vert res<CR>")
+vim.keymap.set("n", "<leader>ыь", ":res<CR>:vert res<CR>")
+
 vim.keymap.set("n", "<leader>s=", "<C-w>=")
+vim.keymap.set("n", "<leader>і=", "<C-w>=")
+vim.keymap.set("n", "<leader>ы=", "<C-w>=")
+
 vim.keymap.set("n", "<leader>nh", ":set nohls<CR>")
+vim.keymap.set("n", "<leader>тр", ":set nohls<CR>")
+vim.keymap.set("n", "<leader>тр", ":set nohls<CR>")
 
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
+vim.keymap.set("n", "<C-л>", "<C-w><C-k>")
+vim.keymap.set("n", "<C-л>", "<C-w><C-k>")
+
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>")
+vim.keymap.set("n", "<C-о>", "<C-w><C-j>")
+vim.keymap.set("n", "<C-о>", "<C-w><C-j>")
+
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>")
+vim.keymap.set("n", "<C-р>", "<C-w><C-h>")
+vim.keymap.set("n", "<C-р>", "<C-w><C-h>")
+
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
+vim.keymap.set("n", "<C-д>", "<C-w><C-l>")
+vim.keymap.set("n", "<C-д>", "<C-w><C-l>")
 
 vim.keymap.set("n", "<leader>of", ":tabedit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
+
 vim.keymap.set("n", "<Tab>", ":tabnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":tabprev<CR>")
 
 vim.keymap.set("n", "<space>nv", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<space>nr", ":NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<space>тм", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<space>тм", ":NvimTreeToggle<CR>")
 
-vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+vim.keymap.set("n", "<space>nr", ":NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
+
+-- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+-- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+-- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+
 vim.keymap.set("n", "<space>eo", ":Lex<CR>")
+vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
+vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
 
 vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
+vim.keymap.set("n", "<leader>аа", ":Pick files<CR>")
+vim.keymap.set("n", "<leader>аа", ":Pick files<CR>")
+
 vim.keymap.set("n", "<leader>gg", ":Pick grep_live<CR>")
+vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
+vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
 
 vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
+vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
+vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
+
 vim.keymap.set("n", "<leader>gf", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
+vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
+vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
 
 local function wrapToggle()
   vim.opt.wrap = not vim.opt.wrap:get()
@@ -293,6 +375,13 @@ local function wrapToggle()
   end
 end
 vim.keymap.set("n", "<leader>lw", wrapToggle)
+vim.keymap.set("n", "<leader>дц", wrapToggle)
+vim.keymap.set("n", "<leader>дц", wrapToggle)
 
 vim.keymap.set("n", "<leader>pc", pack_clean)
+vim.keymap.set("n", "<leader>зс", pack_clean)
+vim.keymap.set("n", "<leader>зс", pack_clean)
+
 vim.keymap.set("n", "<leader>cc", ":checkhealth<CR>")
+vim.keymap.set("n", "<leader>сс", ":checkhealth<CR>")
+vim.keymap.set("n", "<leader>сс", ":checkhealth<CR>")
