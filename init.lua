@@ -15,6 +15,7 @@ vim.opt.wrap = true
 
 vim.opt.smartindent = true
 vim.opt.expandtab = true
+vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.signcolumn = "yes"
@@ -27,12 +28,13 @@ vim.g.netrw_browse_split = 4
 vim.g.netrw_winsize = 25
 vim.g.netrw_altv = 2
 
-vim.opt.langmap = "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
+vim.opt.langmap =
+  "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
 vim.pack.add({
   {
-    src =  "https://github.com/nvim-treesitter/nvim-treesitter",
-    version = "master"
+    src = "https://github.com/nvim-treesitter/nvim-treesitter",
+    version = "master",
   },
   "https://github.com/saghen/blink.lib",
   "https://github.com/saghen/blink.cmp",
@@ -53,14 +55,14 @@ vim.pack.add({
 
   -- "rafamadriz/friendly-snippets",
   -- "L3MON4D3/LuaSnip",
-});
+})
 
-require('vim._core.ui2').enable()
+require("vim._core.ui2").enable()
 
 local servers = { "lua_ls", "vtsls", "html", "cssls" }
 
 require("mason").setup({
-  ensure_installed = servers
+  ensure_installed = servers,
 })
 require("mason-lspconfig").setup({})
 require("nvim-treesitter.configs").setup({
@@ -101,10 +103,10 @@ cmp.setup({
   completion = {
     accept = {
       auto_brackets = {
-        enabled = false
-      }
-    }
-  }
+        enabled = false,
+      },
+    },
+  },
 })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -118,9 +120,9 @@ capabilities.textDocument.completion.completionItem = {
 vim.lsp.config("vtsls", { single_file_support = false })
 vim.lsp.enable("vtsls")
 
-vim.lsp.config('lua_ls', {
-  cmd = { 'lua-language-server' },
-  settings = { Lua = { diagnostics = { globals = { 'vim' } } } }
+vim.lsp.config("lua_ls", {
+  cmd = { "lua-language-server" },
+  settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
 vim.lsp.enable("lua_ls")
 
@@ -128,9 +130,9 @@ vim.lsp.config("lua_ls", {})
 vim.lsp.config("html", {
   settings = {
     html = {
-      autoClosingTags = true
-    }
-  }
+      autoClosingTags = true,
+    },
+  },
 })
 vim.lsp.config("cssls", {})
 -- vim.lsp.config("ts_ls", {})
@@ -174,8 +176,7 @@ require("mini.pairs").setup({
   skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
   skip_ts = { "string" },
 
-  mappings = { ["<"] = false,
-  },
+  mappings = { ["<"] = false },
 })
 require("mini.surround").setup()
 require("mini.statusline").setup()
@@ -195,7 +196,6 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
     require("mini.sessions").write(session_name())
   end,
 })
-
 
 local function restoreSession()
   local name = session_name()
@@ -220,7 +220,7 @@ end
 
 require("toggleterm").setup({
   open_mapping = [[<C-\>]],
-  direction = "float"
+  direction = "float",
 })
 
 require("trouble").setup()
@@ -257,7 +257,7 @@ require("fidget").setup({
   },
 })
 
-local mini_files = require("mini.files");
+local mini_files = require("mini.files")
 
 require("ts_context_commentstring").setup({
   enable_autocmd = false, -- IMPORTANT when using mini.comment
@@ -270,7 +270,6 @@ require("mini.comment").setup({
     end,
   },
 })
-
 
 local function pack_clean()
   local active_plugins = {}
@@ -371,7 +370,9 @@ vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 
-vim.keymap.set("n", "<space>ee", function() mini_files.open(vim.cmd.lcd("%:p:h")) end)
+vim.keymap.set("n", "<space>ee", function()
+  mini_files.open(vim.cmd.lcd("%:p:h"))
+end)
 
 vim.keymap.set("n", "<space>eo", ":Lex<CR>")
 vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
@@ -385,13 +386,13 @@ vim.keymap.set("n", "<leader>gg", ":Pick grep_live<CR>")
 vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
 vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
 
-vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
-vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
-vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle"})
+vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle" })
+vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle" })
+vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle" })
 
-vim.keymap.set("n", "<leader>gf", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
-vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
-vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics"})
+vim.keymap.set("n", "<leader>gf", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
+vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
+vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
 
 local function wrapToggle()
   vim.opt.wrap = not vim.opt.wrap:get()
@@ -408,7 +409,7 @@ vim.keymap.set("n", "<leader>дц", wrapToggle)
 vim.keymap.set("n", "<leader>дц", wrapToggle)
 
 local function toggleColorColumn()
-  if(vim.o.colorcolumn ~= "") then
+  if vim.o.colorcolumn ~= "" then
     vim.o.colorcolumn = ""
   else
     vim.o.colorcolumn = "80"
