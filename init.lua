@@ -3,10 +3,12 @@ vim.o.secure = true
 vim.opt.termguicolors = true
 vim.opt.winborder = "rounded"
 vim.opt.clipboard = "unnamedplus"
+vim.opt.scrolloff = 10
 
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.opt.smoothscroll = true
 vim.opt.wrap = true
 
 vim.opt.smartindent = true
@@ -26,18 +28,18 @@ vim.g.netrw_altv = 2
 vim.opt.langmap = "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
 vim.pack.add({
-  "nvim-treesitter/nvim-treesitter",
-  "saghen/blink.lib",
-  "saghen/blink.cmp",
-  "neovim/nvim-lspconfig",
-  "mason-org/mason.nvim",
-  "mason-org/mason-lspconfig.nvim",
-  "nvim-mini/mini.nvim",
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/saghen/blink.lib",
+  "https://github.com/saghen/blink.cmp",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/mason-org/mason.nvim",
+  "https://github.com/mason-org/mason-lspconfig.nvim",
+  "https://github.com/nvim-mini/mini.nvim",
 
-  "folke/tokyonight.nvim",
-  "akinsho/toggleterm.nvim",
-  "folke/trouble.nvim",
-  "lewis6991/gitsigns.nvim",
+  "https://github.com/folke/tokyonight.nvim",
+  "https://github.com/akinsho/toggleterm.nvim",
+  "https://github.com/folke/trouble.nvim",
+  "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/j-hui/fidget.nvim",
   "https://github.com/nvim-tree/nvim-tree.lua",
   "https://github.com/stevearc/conform.nvim",
@@ -245,6 +247,8 @@ require("fidget").setup({
   },
 })
 
+local mini_files = require("mini.files");
+
 local function pack_clean()
   local active_plugins = {}
   local unused_plugins = {}
@@ -343,6 +347,7 @@ vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+vim.keymap.set("n", "<space>ee", function() mini_files.open(vim.cmd.lcd("%:p:h")) end)
 
 vim.keymap.set("n", "<space>eo", ":Lex<CR>")
 vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
