@@ -7,6 +7,8 @@ vim.opt.scrolloff = 10
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.colorcolumn = ""
 
 vim.opt.smoothscroll = true
 vim.opt.wrap = true
@@ -347,6 +349,7 @@ vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
 -- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
+
 vim.keymap.set("n", "<space>ee", function() mini_files.open(vim.cmd.lcd("%:p:h")) end)
 
 vim.keymap.set("n", "<space>eo", ":Lex<CR>")
@@ -382,6 +385,18 @@ end
 vim.keymap.set("n", "<leader>lw", wrapToggle)
 vim.keymap.set("n", "<leader>дц", wrapToggle)
 vim.keymap.set("n", "<leader>дц", wrapToggle)
+
+local function toggleColorColumn()
+  if(vim.o.colorcolumn ~= "") then
+    vim.o.colorcolumn = ""
+  else
+    vim.o.colorcolumn = "80"
+  end
+end
+
+vim.keymap.set("n", "<leader>cl", toggleColorColumn)
+vim.keymap.set("n", "<leader>сд", toggleColorColumn)
+vim.keymap.set("n", "<leader>сд", toggleColorColumn)
 
 vim.keymap.set("n", "<leader>pc", pack_clean)
 vim.keymap.set("n", "<leader>зс", pack_clean)
