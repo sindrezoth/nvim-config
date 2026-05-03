@@ -59,7 +59,7 @@ vim.pack.add({
 
 require("vim._core.ui2").enable()
 
-local servers = { "lua_ls", "vtsls", "html", "cssls" }
+local servers = { "vtsls", "html", "cssls" }
 
 require("mason").setup({
   ensure_installed = servers,
