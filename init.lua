@@ -30,12 +30,16 @@ vim.g.netrw_altv = 2
 vim.opt.langmap = "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
 vim.pack.add({
-  "https://github.com/nvim-treesitter/nvim-treesitter",
+  {
+    src =  "https://github.com/nvim-treesitter/nvim-treesitter",
+    version = "master"
+  },
   "https://github.com/saghen/blink.lib",
   "https://github.com/saghen/blink.cmp",
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
+  "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
   "https://github.com/nvim-mini/mini.nvim",
 
   "https://github.com/folke/tokyonight.nvim",
@@ -43,8 +47,9 @@ vim.pack.add({
   "https://github.com/folke/trouble.nvim",
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/j-hui/fidget.nvim",
-  "https://github.com/nvim-tree/nvim-tree.lua",
   "https://github.com/stevearc/conform.nvim",
+
+  "https://github.com/nvim-tree/nvim-tree.lua",
 
   -- "rafamadriz/friendly-snippets",
   -- "L3MON4D3/LuaSnip",
@@ -58,7 +63,10 @@ require("mason").setup({
   ensure_installed = servers
 })
 require("mason-lspconfig").setup({})
-require("nvim-treesitter.config")
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "tsx", "typescript", "javascript" },
+  highlight = { enable = true },
+})
 
 local cmp = require("blink.cmp")
 cmp.build():wait(60000)
@@ -250,6 +258,19 @@ require("fidget").setup({
 })
 
 local mini_files = require("mini.files");
+
+require("ts_context_commentstring").setup({
+  enable_autocmd = false, -- IMPORTANT when using mini.comment
+})
+
+require("mini.comment").setup({
+  options = {
+    custom_commentstring = function()
+      return require("ts_context_commentstring.internal").calculate_commentstring()
+    end,
+  },
+})
+
 
 local function pack_clean()
   local active_plugins = {}
