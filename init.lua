@@ -1,12 +1,18 @@
+-- Allow to use .nvim.lua files inside some directories
+-- for adding additional functionality
 vim.o.exrc = true
 vim.o.secure = true
+
+-- Defaults
 vim.opt.termguicolors = true
 vim.opt.winborder = "rounded"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.scrolloff = 10
+vim.opt.signcolumn = "yes"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+
 vim.opt.cursorline = true
 vim.opt.colorcolumn = ""
 
@@ -18,11 +24,11 @@ vim.opt.expandtab = true
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
-vim.opt.signcolumn = "yes"
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Using vim motions with cirrilic
 vim.opt.langmap =
   "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
 
@@ -31,6 +37,7 @@ vim.pack.add({
     src = "https://github.com/nvim-treesitter/nvim-treesitter",
     version = "master",
   },
+  -- Core plugins
   "https://github.com/saghen/blink.lib",
   "https://github.com/saghen/blink.cmp",
   "https://github.com/neovim/nvim-lspconfig",
@@ -39,6 +46,7 @@ vim.pack.add({
   "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
   "https://github.com/nvim-mini/mini.nvim",
 
+  -- Additional
   "https://github.com/folke/tokyonight.nvim",
   "https://github.com/akinsho/toggleterm.nvim",
   "https://github.com/folke/trouble.nvim",
@@ -113,16 +121,12 @@ capabilities.textDocument.completion.completionItem = {
   },
 }
 
-vim.lsp.config("vtsls", { single_file_support = false })
-vim.lsp.enable("vtsls")
-
 vim.lsp.config("lua_ls", {
   cmd = { "lua-language-server" },
   settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
 vim.lsp.enable("lua_ls")
 
-vim.lsp.config("lua_ls", {})
 vim.lsp.config("html", {
   settings = {
     html = {
@@ -130,9 +134,11 @@ vim.lsp.config("html", {
     },
   },
 })
+
 vim.lsp.config("cssls", {})
--- vim.lsp.config("ts_ls", {})
+
 vim.lsp.config("vtsls", {
+  single_file_support = false,
   settings = {
     typescript = {
       preferences = {
@@ -148,6 +154,7 @@ vim.lsp.config("vtsls", {
     },
   },
 })
+
 vim.lsp.enable(servers)
 
 local nvimTreeConfig = {
@@ -166,7 +173,38 @@ local nvimTreeConfig = {
 }
 require("nvim-tree").setup(nvimTreeConfig)
 
-require("mini.pick").setup()
+-- Making Mini Picker works based on git root folder.
+
+local MiniPick = require("mini.pick")
+
+local function project_root()
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+
+  if vim.v.shell_error ~= 0 then
+    return vim.loop.cwd()
+  end
+
+  return root
+end
+
+local function MiniPickFiles()
+  MiniPick.builtin.files(nil, {
+    source = {
+      cwd = project_root(),
+    },
+  })
+end
+
+local function MiniPickGrep()
+  MiniPick.builtin.grep_live(nil, {
+    source = {
+      cwd = project_root(),
+    },
+  })
+end
+
+--
+
 require("mini.pairs").setup({
   modes = { insert = true, command = false, terminal = false },
   skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
@@ -249,6 +287,8 @@ vim.cmd.colorscheme("desert")
 
 vim.g.mapleader = " "
 
+-- Sessions
+
 local function session_name()
   return vim.fn.fnamemodify(vim.loop.cwd(), ":p:h:t")
 end
@@ -284,9 +324,13 @@ vim.keymap.set("n", "<leader>s\\", restoreSession)
 vim.keymap.set("n", "<leader>і\\", restoreSession)
 vim.keymap.set("n", "<leader>ы\\", restoreSession)
 
+-- Fast :q
+
 vim.keymap.set("n", "<leader>jk", ":q<CR>")
 vim.keymap.set("n", "<leader>ол", ":q<CR>")
 vim.keymap.set("n", "<leader>ол", ":q<CR>")
+
+-- Splitting, split fullscreen
 
 vim.keymap.set("n", "<leader>sh", ":vsplit<CR>:Pick files<CR>")
 vim.keymap.set("n", "<leader>ір", ":vsplit<CR>:Pick files<CR>")
@@ -312,9 +356,13 @@ vim.keymap.set("n", "<leader>s=", "<C-w>=")
 vim.keymap.set("n", "<leader>і=", "<C-w>=")
 vim.keymap.set("n", "<leader>ы=", "<C-w>=")
 
+-- Turn off highlight
+
 vim.keymap.set("n", "<leader>nh", ":set nohls<CR>")
 vim.keymap.set("n", "<leader>тр", ":set nohls<CR>")
 vim.keymap.set("n", "<leader>тр", ":set nohls<CR>")
+
+-- Moving between splits
 
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>")
 vim.keymap.set("n", "<C-л>", "<C-w><C-k>")
@@ -332,6 +380,8 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>")
 vim.keymap.set("n", "<C-д>", "<C-w><C-l>")
 vim.keymap.set("n", "<C-д>", "<C-w><C-l>")
 
+-- Tabs
+
 vim.keymap.set("n", "<leader>of", ":tabedit<CR>:Pick files<CR>")
 vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
 vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
@@ -347,17 +397,23 @@ vim.keymap.set("n", "<space>nr", ":NvimTreeRefresh<CR>")
 vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 
+-- Mini files
+
 vim.keymap.set("n", "<space>ee", function()
   mini_files.open(vim.cmd.lcd("%:p:h"))
 end)
 
-vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
-vim.keymap.set("n", "<leader>аа", ":Pick files<CR>")
-vim.keymap.set("n", "<leader>аа", ":Pick files<CR>")
+-- Mini Picker
 
-vim.keymap.set("n", "<leader>gg", ":Pick grep_live<CR>")
-vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
-vim.keymap.set("n", "<leader>пп", ":Pick grep_live<CR>")
+vim.keymap.set("n", "<leader>ff", MiniPickFiles)
+vim.keymap.set("n", "<leader>аа", MiniPickFiles)
+vim.keymap.set("n", "<leader>аа", MiniPickFiles)
+
+vim.keymap.set("n", "<leader>gg", MiniPickGrep)
+vim.keymap.set("n", "<leader>пп", MiniPickGrep)
+vim.keymap.set("n", "<leader>пп", MiniPickGrep)
+
+-- Diagnostics
 
 vim.keymap.set("n", "<leader>gd", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle" })
 vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = "Show diagnostics toggle" })
@@ -366,6 +422,8 @@ vim.keymap.set("n", "<leader>пв", ":Trouble diagnostics toggle<CR>", { desc = 
 vim.keymap.set("n", "<leader>gf", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
 vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
 vim.keymap.set("n", "<leader>па", vim.diagnostic.open_float, { desc = "Show inline diagnostics" })
+
+-- Line Wrapping
 
 local function wrapToggle()
   vim.opt.wrap = not vim.opt.wrap:get()
@@ -377,9 +435,12 @@ local function wrapToggle()
     vim.opt.linebreak = false
   end
 end
+
 vim.keymap.set("n", "<leader>lw", wrapToggle)
 vim.keymap.set("n", "<leader>дц", wrapToggle)
 vim.keymap.set("n", "<leader>дц", wrapToggle)
+
+-- Workspace Width Highlighter Toggle
 
 local function toggleColorColumn()
   if vim.o.colorcolumn ~= "" then
@@ -392,6 +453,8 @@ end
 vim.keymap.set("n", "<leader>cl", toggleColorColumn)
 vim.keymap.set("n", "<leader>сд", toggleColorColumn)
 vim.keymap.set("n", "<leader>сд", toggleColorColumn)
+
+-- Pack Cleaner
 
 local function pack_clean()
   local active_plugins = {}
@@ -420,6 +483,8 @@ end
 vim.keymap.set("n", "<leader>pc", pack_clean)
 vim.keymap.set("n", "<leader>зс", pack_clean)
 vim.keymap.set("n", "<leader>зс", pack_clean)
+
+-- Check Health
 
 vim.keymap.set("n", "<leader>cc", ":checkhealth<CR>")
 vim.keymap.set("n", "<leader>сс", ":checkhealth<CR>")
