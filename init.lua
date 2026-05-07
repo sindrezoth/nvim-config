@@ -20,13 +20,8 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.signcolumn = "yes"
 
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_browse_split = 4
-vim.g.netrw_winsize = 25
-vim.g.netrw_altv = 2
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.langmap =
   "йЙцЦуУкКеЕнНгГшШщЩзЗхХъЪфФыЫвВаАпПрРоОлЛдДжЖэЭяЯчЧсСмМиИтТьЬбБюЮ.\\,;qQwWeErRtTyYuUiIoOpP[{]}aAsSdDfFgGhHjJkKlL;:'\"zZxXcCvVbBnNmM\\,<.>/?,їЇ;]},іІ;sS"
@@ -59,12 +54,13 @@ vim.pack.add({
 
 require("vim._core.ui2").enable()
 
-local servers = { "lua_ls", "vtsls", "html", "cssls" }
+local servers = { "vtsls", "html", "cssls" }
 
-require("mason").setup({
+require("mason").setup({})
+require("mason-lspconfig").setup({
   ensure_installed = servers,
 })
-require("mason-lspconfig").setup({})
+
 require("nvim-treesitter.configs").setup({
   ensure_installed = { "tsx", "typescript", "javascript" },
   highlight = { enable = true },
@@ -82,7 +78,7 @@ cmp.setup({
       },
       buffer = {
         score_offset = -50,
-        keyword_length = 3, -- only show buffer after 5 chars
+        keyword_length = 3,
       },
       path = {
         score_offset = -5,
@@ -187,37 +183,6 @@ require("mini.sessions").setup({
   file = "",
 })
 
-local function session_name()
-  return vim.fn.fnamemodify(vim.loop.cwd(), ":p:h:t")
-end
-
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  callback = function()
-    require("mini.sessions").write(session_name())
-  end,
-})
-
-local function restoreSession()
-  local name = session_name()
-
-  vim.defer_fn(function()
-    local ok = pcall(require("mini.sessions").read, name)
-
-    if ok then
-      vim.cmd("filetype detect")
-      vim.cmd("syntax enable")
-
-      vim.defer_fn(function()
-        vim.cmd("silent! LspRestart")
-      end, 50)
-
-      vim.defer_fn(function()
-        vim.cmd("silent! TSBufEnable highlight")
-      end, 50)
-    end
-  end, 50)
-end
-
 require("toggleterm").setup({
   open_mapping = [[<C-\>]],
   direction = "float",
@@ -260,7 +225,7 @@ require("fidget").setup({
 local mini_files = require("mini.files")
 
 require("ts_context_commentstring").setup({
-  enable_autocmd = false, -- IMPORTANT when using mini.comment
+  enable_autocmd = false,
 })
 
 require("mini.comment").setup({
@@ -270,30 +235,6 @@ require("mini.comment").setup({
     end,
   },
 })
-
-local function pack_clean()
-  local active_plugins = {}
-  local unused_plugins = {}
-  for _, plugin in ipairs(vim.pack.get()) do
-    active_plugins[plugin.spec.name] = plugin.active
-  end
-
-  for _, plugin in ipairs(vim.pack.get()) do
-    if not active_plugins[plugin.spec.name] then
-      table.insert(unused_plugins, plugin.spec.name)
-    end
-  end
-
-  if #unused_plugins == 0 then
-    print("No unused plugins.")
-    return
-  end
-
-  local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
-  if choice == 1 then
-    vim.pack.del(unused_plugins)
-  end
-end
 
 -- vim.cmd.colorscheme("tokyonight-night")
 vim.cmd.colorscheme("desert")
@@ -307,6 +248,37 @@ vim.cmd.colorscheme("desert")
 -- vim.cmd.colorscheme("zaibatsu")
 
 vim.g.mapleader = " "
+
+local function session_name()
+  return vim.fn.fnamemodify(vim.loop.cwd(), ":p:h:t")
+end
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    require("mini.sessions").write(session_name())
+  end,
+})
+
+local function restoreSession()
+  local name = session_name()
+
+  vim.defer_fn(function()
+    local ok = pcall(require("mini.sessions").read, name)
+
+    if ok then
+      vim.cmd("filetype detect")
+      vim.cmd("syntax enable")
+
+      vim.defer_fn(function()
+        vim.cmd("silent! LspRestart")
+      end, 50)
+
+      vim.defer_fn(function()
+        vim.cmd("silent! TSBufEnable highlight")
+      end, 50)
+    end
+  end, 50)
+end
 
 vim.keymap.set("n", "<leader>s\\", restoreSession)
 vim.keymap.set("n", "<leader>і\\", restoreSession)
@@ -375,17 +347,9 @@ vim.keymap.set("n", "<space>nr", ":NvimTreeRefresh<CR>")
 vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 vim.keymap.set("n", "<space>тк", ":NvimTreeRefresh<CR>")
 
--- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
--- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
--- vim.keymap.set("n", "<space>eo", "<Plug>NetrwRefresh", { silent = true })
-
 vim.keymap.set("n", "<space>ee", function()
   mini_files.open(vim.cmd.lcd("%:p:h"))
 end)
-
-vim.keymap.set("n", "<space>eo", ":Lex<CR>")
-vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
-vim.keymap.set("n", "<space>ущ", ":Lex<CR>")
 
 vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>аа", ":Pick files<CR>")
@@ -428,6 +392,30 @@ end
 vim.keymap.set("n", "<leader>cl", toggleColorColumn)
 vim.keymap.set("n", "<leader>сд", toggleColorColumn)
 vim.keymap.set("n", "<leader>сд", toggleColorColumn)
+
+local function pack_clean()
+  local active_plugins = {}
+  local unused_plugins = {}
+  for _, plugin in ipairs(vim.pack.get()) do
+    active_plugins[plugin.spec.name] = plugin.active
+  end
+
+  for _, plugin in ipairs(vim.pack.get()) do
+    if not active_plugins[plugin.spec.name] then
+      table.insert(unused_plugins, plugin.spec.name)
+    end
+  end
+
+  if #unused_plugins == 0 then
+    print("No unused plugins.")
+    return
+  end
+
+  local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+  if choice == 1 then
+    vim.pack.del(unused_plugins)
+  end
+end
 
 vim.keymap.set("n", "<leader>pc", pack_clean)
 vim.keymap.set("n", "<leader>зс", pack_clean)
