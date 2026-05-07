@@ -203,6 +203,16 @@ local function MiniPickGrep()
   })
 end
 
+local function SplitAndMiniPickFiles(split)
+  vim.cmd(split)
+  MiniPickFiles()
+end
+
+local function SplitAndMiniPickGrep(split)
+  vim.cmd(split)
+  MiniPickGrep()
+end
+
 --
 
 require("mini.pairs").setup({
@@ -332,21 +342,45 @@ vim.keymap.set("n", "<leader>ол", ":q<CR>")
 
 -- Splitting, split fullscreen
 
-vim.keymap.set("n", "<leader>sh", ":vsplit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ір", ":vsplit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ыр", ":vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>sh", function()
+  SplitAndMiniPickFiles(":vsplit")
+end)
+vim.keymap.set("n", "<leader>ір", function()
+  SplitAndMiniPickFiles(":vsplit")
+end)
+vim.keymap.set("n", "<leader>ыр", function()
+  SplitAndMiniPickFiles(":vsplit")
+end)
 
-vim.keymap.set("n", "<leader>sl", ":bel vsplit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ід", ":bel vsplit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ыд", ":bel vsplit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>sl", function()
+  SplitAndMiniPickFiles(":bel vsplit")
+end)
+vim.keymap.set("n", "<leader>ід", function()
+  SplitAndMiniPickFiles(":bel vsplit")
+end)
+vim.keymap.set("n", "<leader>ыд", function()
+  SplitAndMiniPickFiles(":bel vsplit")
+end)
 
-vim.keymap.set("n", "<leader>sj", ":bel split<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>іо", ":bel split<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ыо", ":bel split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>sj", function()
+  SplitAndMiniPickFiles(":bel split")
+end)
+vim.keymap.set("n", "<leader>іо", function()
+  SplitAndMiniPickFiles(":bel split")
+end)
+vim.keymap.set("n", "<leader>ыо", function()
+  SplitAndMiniPickFiles(":bel split")
+end)
 
-vim.keymap.set("n", "<leader>sk", ":split<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>іл", ":split<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ыл", ":split<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>sk", function()
+  SplitAndMiniPickFiles(":split")
+end)
+vim.keymap.set("n", "<leader>іл", function()
+  SplitAndMiniPickFiles(":split")
+end)
+vim.keymap.set("n", "<leader>ыл", function()
+  SplitAndMiniPickFiles(":split")
+end)
 
 vim.keymap.set("n", "<leader>sm", ":res<CR>:vert res<CR>")
 vim.keymap.set("n", "<leader>іь", ":res<CR>:vert res<CR>")
@@ -382,9 +416,15 @@ vim.keymap.set("n", "<C-д>", "<C-w><C-l>")
 
 -- Tabs
 
-vim.keymap.set("n", "<leader>of", ":tabedit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
-vim.keymap.set("n", "<leader>ща", ":tabedit<CR>:Pick files<CR>")
+vim.keymap.set("n", "<leader>of", function()
+  SplitAndMiniPickFiles(":tabedit")
+end)
+vim.keymap.set("n", "<leader>ща", function()
+  SplitAndMiniPickFiles(":tabedit")
+end)
+vim.keymap.set("n", "<leader>ща", function()
+  SplitAndMiniPickFiles(":tabedit")
+end)
 
 vim.keymap.set("n", "<Tab>", ":tabnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":tabprev<CR>")
